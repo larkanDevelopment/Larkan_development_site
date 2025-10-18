@@ -146,7 +146,14 @@ export default function Home() {
                 {iconMap[service]}
                 <ScrambleText text={service} />
               </div>
-              <p className="text-gray-300 text-sm sm:text-base">High-performance, scalable and secure development tailored to your needs.</p>
+              <p className="text-gray-300 text-sm sm:text-base">
+  {service === "Client Portals" && "Private client dashboards, secure login systems, and personalized UX."}
+  {service === "Admin Dashboards" && "Advanced admin tools with analytics, control panels, and workflow automation."}
+  {service === "Marketing Sites" && "High-converting marketing websites with SEO optimization and modern visuals."}
+  {service === "E-Commerce" && "Custom online stores built for performance, checkout speed, and reliability."}
+  {service === "API Integrations" && "Seamless integration between systems, APIs, and third-party platforms."}
+  {service === "Mobile Apps" && "Cross-platform mobile applications built for speed and scalability."}
+</p>
             </motion.div>
           ))}
         </div>
