@@ -1,4 +1,4 @@
-// Larkan Portfolio – Clean Version (No Testimonials)
+// ok Larkan Portfolio – Clean Version (No Testimonials)
 'use client';
 
 import { useEffect, useRef, useState } from "react";
