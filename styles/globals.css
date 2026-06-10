@@ -4,6 +4,16 @@
 
 body {
   font-family: 'Inter', sans-serif;
+  background: #f7f8f3;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+::selection {
+  background: #b7f4e5;
+  color: #17202a;
 }
 
 .text-neon-green {

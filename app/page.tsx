@@ -1,90 +1,75 @@
-// ok Larkan Portfolio – Clean Version (No Testimonials)
 'use client';
 
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import { motion } from "framer-motion";
-import { Button } from "../components/ui/button";
 import {
-  Users,
+  ArrowRight,
+  BadgeCheck,
+  Code2,
+  HeartHandshake,
   LayoutDashboard,
-  Megaphone,
-  ShoppingCart,
-  PlugZap,
-  Smartphone
+  Mail,
+  Palette,
+  Rocket,
+  ShoppingBag,
+  Sparkles,
+  Smartphone,
+  Wand2,
+  type LucideIcon,
 } from "lucide-react";
+import { Button } from "../components/ui/button";
 
-const iconMap = {
-  "Client Portals": <Users className="w-6 h-6 text-neon-green" />,
-  "Admin Dashboards": <LayoutDashboard className="w-6 h-6 text-neon-green" />,
-  "Marketing Sites": <Megaphone className="w-6 h-6 text-neon-green" />,
-  "E-Commerce": <ShoppingCart className="w-6 h-6 text-neon-green" />,
-  "API Integrations": <PlugZap className="w-6 h-6 text-neon-green" />,
-  "Mobile Apps": <Smartphone className="w-6 h-6 text-neon-green" />,
-};
+const services: Array<{ title: string; description: string; icon: LucideIcon }> = [
+  {
+    title: "Polished Websites",
+    description: "Responsive sites with clean copy, sharp visuals, and easy paths for customers to take action.",
+    icon: Palette,
+  },
+  {
+    title: "Custom Web Apps",
+    description: "Portals, dashboards, and internal tools that feel simple on the surface and powerful underneath.",
+    icon: LayoutDashboard,
+  },
+  {
+    title: "Shop & Booking Flows",
+    description: "Checkout, scheduling, lead capture, and integrations tuned for the way your business actually works.",
+    icon: ShoppingBag,
+  },
+  {
+    title: "Mobile-Friendly Builds",
+    description: "Interfaces that look polished and stay usable from desktop screens down to phone-sized moments.",
+    icon: Smartphone,
+  },
+];
 
-const ScrambleText = ({ text }: { text: string }) => {
-  const [scrambled, setScrambled] = useState(text);
-  const original = useRef(text);
-  const intervalRef = useRef<NodeJS.Timeout | null>(null);
-  const chars = "アカサタナハマヤラワ0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+const highlights = [
+  "Clean design systems",
+  "Reliable launch support",
+  "Clear project communication",
+  "Practical automation",
+];
 
-  const handleMouseEnter = () => {
-    let frame = 0;
-    intervalRef.current = setInterval(() => {
-      setScrambled((prev) =>
-        prev
-          .split("")
-          .map((_, i) =>
-            i < frame ? original.current[i] : chars[Math.floor(Math.random() * chars.length)]
-          )
-          .join("")
-      );
-      frame++;
-      if (frame >= original.current.length) clearInterval(intervalRef.current!);
-    }, 30);
-  };
-
-  return (
-    <span
-      onMouseEnter={handleMouseEnter}
-      className="text-neon-green text-lg sm:text-xl font-semibold cursor-default"
-    >
-      {scrambled}
-    </span>
-  );
-};
+const processSteps: Array<{ title: string; copy: string; icon: LucideIcon }> = [
+  {
+    title: "Plan",
+    copy: "We map goals, pages, features, and the little details that make the site feel like yours.",
+    icon: Code2,
+  },
+  {
+    title: "Build",
+    copy: "I create the interface, connect the forms and integrations, and keep the experience responsive.",
+    icon: HeartHandshake,
+  },
+  {
+    title: "Launch",
+    copy: "We test the flow, tune the final polish, and get your new site ready for visitors.",
+    icon: Rocket,
+  },
+];
 
 export default function Home() {
-  const canvasRef = useRef<HTMLCanvasElement>(null);
   const formRef = useRef<HTMLFormElement>(null);
   const [status, setStatus] = useState<string | null>(null);
-
-  useEffect(() => {
-    document.title = "Larkan Development | Tactical Software";
-    const canvas = canvasRef.current;
-    const ctx = canvas?.getContext("2d");
-    if (!ctx || !canvas) return;
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
-    const letters = "アカサタナハマヤラワ0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");
-    const fontSize = 16;
-    const columns = canvas.width / fontSize;
-    const drops = Array(Math.floor(columns)).fill(1);
-    const draw = () => {
-      ctx.fillStyle = "rgba(0, 0, 0, 0.05)";
-      ctx.fillRect(0, 0, canvas.width, canvas.height);
-      ctx.fillStyle = "#39ff14";
-      ctx.font = `${fontSize}px monospace`;
-      drops.forEach((y, i) => {
-        const text = letters[Math.floor(Math.random() * letters.length)];
-        ctx.fillText(text, i * fontSize, y * fontSize);
-        if (y * fontSize > canvas.height && Math.random() > 0.975) drops[i] = 0;
-        drops[i]++;
-      });
-    };
-    const interval = setInterval(draw, 33);
-    return () => clearInterval(interval);
-  }, []);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -98,83 +83,160 @@ export default function Home() {
     });
     if (res.ok) {
       form.reset();
-      setStatus("Message sent successfully!");
+      setStatus("Message sent. I will be in touch soon!");
     } else {
-      setStatus("Error sending message. Please try again.");
+      setStatus("Something went sideways. Please try again.");
     }
   };
 
   return (
-    <div className="relative bg-black min-h-screen text-white font-inter overflow-x-hidden scroll-smooth snap-y snap-mandatory">
-      <canvas ref={canvasRef} className="absolute top-0 left-0 w-full h-full z-0" />
-
-      <nav className="fixed top-0 left-0 w-full z-50 bg-black/80 backdrop-blur-sm border-b border-gray-800">
-        <ul className="flex justify-center space-x-8 p-4 text-sm md:text-base">
-          <li><a href="#hero" className="text-gray-400 hover:text-neon-green transition-all">Home</a></li>
-          <li><a href="#services" className="text-gray-400 hover:text-neon-green transition-all">Services</a></li>
-          <li><a href="#contact" className="text-gray-400 hover:text-neon-green transition-all">Contact</a></li>
-        </ul>
+    <main className="min-h-screen overflow-x-hidden bg-[#f7f8f3] text-[#17202a]">
+      <nav className="fixed left-0 top-0 z-50 w-full border-b border-[#d9ded6] bg-[#f7f8f3]/90 backdrop-blur">
+        <div className="mx-auto flex max-w-6xl items-center justify-between px-5 py-3">
+          <a href="#hero" className="flex items-center gap-2 text-sm font-bold tracking-wide text-[#17202a]">
+            <Sparkles className="h-5 w-5 text-[#00a6a6]" />
+            Larkan Development
+          </a>
+          <div className="flex items-center gap-4 text-sm font-semibold">
+            <a href="#services" className="text-[#52606d] transition hover:text-[#00a6a6]">Services</a>
+            <a href="#process" className="text-[#52606d] transition hover:text-[#00a6a6]">Process</a>
+            <a href="#contact" className="text-[#52606d] transition hover:text-[#00a6a6]">Contact</a>
+          </div>
+        </div>
       </nav>
 
-      <section id="hero" className="relative z-10 flex flex-col items-center justify-center text-center min-h-[80vh] gap-4 px-6 snap-start max-w-xl mx-auto">
-        <div className="bg-black/40 backdrop-blur-sm p-6 rounded-xl w-full">
-          <motion.h1 className="text-4xl sm:text-5xl md:text-6xl font-bold text-white drop-shadow-lg">
-            Larkan Development
-          </motion.h1>
-          <motion.h2 className="text-[#00ff88] text-xl sm:text-2xl mt-2">
-            Custom Software & Websites
-          </motion.h2>
-          <motion.p className="text-base sm:text-lg text-[#00ff88] mt-2">
-            Tactical-grade solutions. Designed for performance.
-          </motion.p>
-          <motion.div className="mt-4">
-            <a href="#contact">
-              <Button className="w-full sm:w-auto bg-transparent border border-neon-green text-neon-green hover:shadow-neon-glow transition-all">
-                Request Free Consultation
-              </Button>
-            </a>
+      <section id="hero" className="relative isolate overflow-hidden px-5 pt-28">
+        <div className="absolute inset-0 -z-10 bg-[radial-gradient(circle_at_18%_18%,#b7f4e5_0,transparent_28%),radial-gradient(circle_at_82%_8%,#ffe08a_0,transparent_22%),linear-gradient(135deg,#f7f8f3_0%,#edf8f4_50%,#fff9df_100%)]" />
+        <div className="mx-auto grid min-h-[calc(100vh-6rem)] max-w-6xl items-center gap-10 pb-20 md:grid-cols-[1.08fr_0.92fr]">
+          <motion.div
+            initial={{ opacity: 0, y: 18 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.55 }}
+            className="max-w-3xl"
+          >
+            <div className="mb-5 inline-flex items-center gap-2 rounded-full border border-[#9bded6] bg-white/80 px-4 py-2 text-sm font-bold text-[#066a6a] shadow-sm">
+              <Wand2 className="h-4 w-4" />
+              Playful, capable websites for real-world businesses
+            </div>
+            <h1 className="max-w-4xl text-5xl font-black leading-[1.02] text-[#17202a] sm:text-6xl lg:text-7xl">
+              Hi, I am <span className="text-[#00a6a6]">Grey Larkan</span>.
+            </h1>
+            <p className="mt-6 max-w-2xl text-lg leading-8 text-[#43515c] sm:text-xl">
+              I build developer-made websites, apps, dashboards, and automations that look polished, feel approachable, and work hard behind the scenes.
+            </p>
+            <div className="mt-8 flex flex-col gap-3 sm:flex-row">
+              <a href="#contact">
+                <Button className="h-12 w-full rounded-full bg-[#17202a] px-6 text-white hover:bg-[#263544] sm:w-auto">
+                  Start a project
+                  <ArrowRight className="ml-2 h-4 w-4" />
+                </Button>
+              </a>
+              <a href="#services">
+                <Button className="h-12 w-full rounded-full border border-[#00a6a6] bg-white/75 px-6 text-[#066a6a] hover:bg-white sm:w-auto">
+                  See services
+                </Button>
+              </a>
+            </div>
+          </motion.div>
+
+          <motion.div
+            initial={{ opacity: 0, scale: 0.96 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.55, delay: 0.1 }}
+            className="relative mx-auto w-full max-w-md"
+          >
+            <div className="rounded-[1.5rem] border border-white bg-white/85 p-4 shadow-[0_24px_80px_rgba(0,166,166,0.18)]">
+              <div className="overflow-hidden rounded-[1rem] bg-[#17202a]">
+                <img
+                  src="/headshot.jpg"
+                  alt="Grey Larkan headshot"
+                  className="h-[28rem] w-full object-cover object-center"
+                />
+              </div>
+              <div className="mt-4 grid grid-cols-2 gap-3">
+                {highlights.map((item) => (
+                  <div key={item} className="flex items-center gap-2 rounded-lg bg-[#eef8f5] px-3 py-3 text-sm font-bold text-[#31434a]">
+                    <BadgeCheck className="h-4 w-4 shrink-0 text-[#00a06a]" />
+                    <span>{item}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
           </motion.div>
         </div>
       </section>
 
-      <section id="services" className="px-6 py-10 bg-gradient-to-b from-black to-gray-900 snap-start">
-        <h2 className="text-3xl sm:text-4xl font-semibold text-center mb-8">Services</h2>
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 items-start">
-          {Object.keys(iconMap).map((service, i) => (
-            <motion.div key={i} className="bg-glass p-6 sm:p-8 rounded-2xl shadow-inner border border-gray-800 hover:border-neon-green transition-all">
-              <div className="flex items-center gap-4 mb-2">
-                {iconMap[service]}
-                <ScrambleText text={service} />
-              </div>
-              <p className="text-gray-300 text-sm sm:text-base">
-  {service === "Client Portals" && "Private client dashboards, secure login systems, and personalized UX."}
-  {service === "Admin Dashboards" && "Advanced admin tools with analytics, control panels, and workflow automation."}
-  {service === "Marketing Sites" && "High-converting marketing websites with SEO optimization and modern visuals."}
-  {service === "E-Commerce" && "Custom online stores built for performance, checkout speed, and reliability."}
-  {service === "API Integrations" && "Seamless integration between systems, APIs, and third-party platforms."}
-  {service === "Mobile Apps" && "Cross-platform mobile applications built for speed and scalability."}
-</p>
-            </motion.div>
-          ))}
+      <section id="services" className="bg-white px-5 py-20">
+        <div className="mx-auto max-w-6xl">
+          <div className="max-w-2xl">
+            <p className="text-sm font-black uppercase tracking-[0.2em] text-[#00a6a6]">What I make</p>
+            <h2 className="mt-3 text-4xl font-black text-[#17202a] sm:text-5xl">Developer work with personality.</h2>
+          </div>
+          <div className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+            {services.map((service) => {
+              const Icon = service.icon;
+              return (
+                <motion.article
+                  key={service.title}
+                  whileHover={{ y: -6 }}
+                  className="rounded-lg border border-[#d9ded6] bg-[#fbfcf7] p-6 shadow-sm transition hover:shadow-xl"
+                >
+                  <div className="mb-5 flex h-12 w-12 items-center justify-center rounded-lg bg-[#d9fff1] text-[#066a6a]">
+                    <Icon className="h-6 w-6" />
+                  </div>
+                  <h3 className="text-xl font-black text-[#17202a]">{service.title}</h3>
+                  <p className="mt-3 text-sm leading-6 text-[#52606d]">{service.description}</p>
+                </motion.article>
+              );
+            })}
+          </div>
         </div>
       </section>
 
-      <section id="contact" className="px-6 py-20 bg-black/80 backdrop-blur-sm snap-start">
-        <h2 className="text-3xl sm:text-4xl font-semibold text-center mb-12">Get In Touch</h2>
+      <section id="process" className="bg-[#17202a] px-5 py-20 text-white">
+        <div className="mx-auto grid max-w-6xl gap-10 md:grid-cols-[0.85fr_1.15fr] md:items-center">
+          <div>
+            <p className="text-sm font-black uppercase tracking-[0.2em] text-[#8df5dc]">How it works</p>
+            <h2 className="mt-3 text-4xl font-black sm:text-5xl">A calm build from idea to launch.</h2>
+            <p className="mt-5 text-lg leading-8 text-[#d8e5e4]">
+              We turn the fuzzy parts into a clear plan, design the screens, build the functionality, and polish the launch details together.
+            </p>
+          </div>
+          <div className="grid gap-4 sm:grid-cols-3">
+            {processSteps.map(({ title, copy, icon: Icon }) => (
+              <div key={title} className="rounded-lg border border-white/15 bg-white/8 p-5">
+                <Icon className="h-7 w-7 text-[#ffe08a]" />
+                <h3 className="mt-5 text-xl font-black">{title}</h3>
+                <p className="mt-3 text-sm leading-6 text-[#d8e5e4]">{copy}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section id="contact" className="bg-[#f7f8f3] px-5 py-20">
+        <div className="mx-auto max-w-3xl text-center">
+          <Mail className="mx-auto h-9 w-9 text-[#00a6a6]" />
+          <h2 className="mt-4 text-4xl font-black text-[#17202a] sm:text-5xl">Tell me what you are building.</h2>
+          <p className="mt-4 text-lg leading-8 text-[#52606d]">
+            Send a few project details and I will help shape the next step.
+          </p>
+        </div>
         <motion.form
           ref={formRef}
           onSubmit={handleSubmit}
-          className="max-w-2xl mx-auto bg-black/60 border border-gray-800 p-8 rounded-2xl shadow-xl space-y-6"
+          className="mx-auto mt-10 max-w-2xl space-y-4 rounded-lg border border-[#d9ded6] bg-white p-5 shadow-[0_20px_60px_rgba(23,32,42,0.08)] sm:p-8"
         >
-          <input name="name" type="text" placeholder="Name" required className="w-full bg-transparent border border-gray-700 p-4 rounded-md text-white focus:outline-none focus:border-neon-green" />
-          <input name="email" type="email" placeholder="Email" required className="w-full bg-transparent border border-gray-700 p-4 rounded-md text-white focus:outline-none focus:border-neon-green" />
-          <textarea name="message" placeholder="Project Details" required className="w-full bg-transparent border border-gray-700 p-4 rounded-md text-white h-32 focus:outline-none focus:border-neon-green" />
-          <Button type="submit" className="w-full bg-gradient-to-r from-neon-green to-neon-blue text-black font-semibold hover:opacity-90 hover:shadow-neon-glow transition-all">
-            Send Inquiry
+          <input name="name" type="text" placeholder="Name" required className="w-full rounded-lg border border-[#d9ded6] bg-[#fbfcf7] p-4 text-[#17202a] outline-none transition placeholder:text-[#7a8791] focus:border-[#00a6a6]" />
+          <input name="email" type="email" placeholder="Email" required className="w-full rounded-lg border border-[#d9ded6] bg-[#fbfcf7] p-4 text-[#17202a] outline-none transition placeholder:text-[#7a8791] focus:border-[#00a6a6]" />
+          <textarea name="message" placeholder="Project details" required className="h-32 w-full rounded-lg border border-[#d9ded6] bg-[#fbfcf7] p-4 text-[#17202a] outline-none transition placeholder:text-[#7a8791] focus:border-[#00a6a6]" />
+          <Button type="submit" className="h-12 w-full rounded-full bg-[#00a6a6] font-bold text-white hover:bg-[#078989]">
+            Send inquiry
+            <Sparkles className="ml-2 h-4 w-4" />
           </Button>
-          {status && <p className="text-center text-[#00ff88] font-medium pt-2">{status}</p>}
+          {status && <p className="text-center font-bold text-[#00a06a]">{status}</p>}
         </motion.form>
       </section>
-    </div>
+    </main>
   );
 }
